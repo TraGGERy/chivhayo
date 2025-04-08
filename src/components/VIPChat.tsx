@@ -35,13 +35,15 @@ const VIPChat = ({ isOpen, onClose }: VIPChatProps) => {
     setTypingEffect(true);
     setCurrentTypingText('');
     
-    let i = 0;
+    let charIndex = 0;
+
     const typingInterval = setInterval(() => {
-      if (i < text.length) {
+      if (charIndex < text.length) {
         // Type multiple characters at once for faster effect
-        const charsToAdd = Math.min(5, text.length - i);
-        setCurrentTypingText(prev => prev + text.substr(i, charsToAdd));
-        i += charsToAdd;
+        const charsToAdd = Math.min(5, text.length - charIndex);
+        setCurrentTypingText(prev => prev + text.substr(charIndex, charsToAdd));
+        charIndex += charsToAdd;
+
       } else {
         clearInterval(typingInterval);
         setTypingEffect(false);
@@ -79,7 +81,8 @@ const VIPChat = ({ isOpen, onClose }: VIPChatProps) => {
       // Play subtle sound effect for premium feel
       const audio = new Audio('/premium-notification.mp3');
       audio.volume = 0.2;
-      audio.play().catch(e => console.log('Audio play prevented by browser policy'));
+      audio.play().catch(() => console.log('Audio play prevented by browser policy'));
+
       
       // Trigger gold animation
       setAnimateGold(true);
@@ -186,9 +189,11 @@ Your Goal: Respond to any questions or statements as Wicknell Chivayo, using the
     }
   };
   
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
+  const handleKeyPress = (event: React.KeyboardEvent) => {
+
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+
       handleSendMessage();
     }
   };
@@ -296,7 +301,8 @@ Your Goal: Respond to any questions or statements as Wicknell Chivayo, using the
                         )}
                         <p className="text-sm font-light leading-relaxed">
                           {/* Process text to render emojis */}
-                          {message.text.split(/(:[a-zA-Z0-9_]+:)/).map((part, i) => {
+                          {message.text.split(/(:[a-zA-Z0-9_]+:)/).map((part) => {
+
                             // Simple emoji mapping
                             const emojiMap: {[key: string]: string} = {
                               ':smile:': '😊',
