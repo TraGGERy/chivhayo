@@ -354,13 +354,13 @@ export default function Home() {
               transition={{ duration: 1 }}
             >
               <p className="text-base sm:text-lg md:text-xl leading-relaxed mb-8 sm:mb-10 font-extralight">
-                Born into humble beginnings in Chivhu, Zimbabwe, Winknell Chivhayo's ascension to the pinnacle of global entrepreneurship embodies the quintessence of vision, perseverance, and strategic brilliance.
+                Born into humble beginnings in Chivhu, Zimbabwe,Sir Winknell ascension to the pinnacle of global entrepreneurship embodies the quintessence of vision, perseverance, and strategic brilliance.
               </p>
               <p className="text-base sm:text-lg md:text-xl leading-relaxed mb-8 sm:mb-10 font-extralight">
                 His portfolio spans continents—from renewable energy infrastructure in Southern Africa to strategic investments across Europe, Asia, and the Americas. Each venture bears the hallmark of his distinctive approach: identifying opportunities where others perceive limitations.
               </p>
               <p className="text-base sm:text-lg md:text-xl leading-relaxed font-extralight">
-                Beyond the boardroom, Winknell's philanthropic endeavors reflect his commitment to elevating communities and preserving cultural heritage. His patronage of the arts and support of educational institutions has established a legacy that transcends business achievements.
+                Beyond the boardroom, Winknell is philanthropic endeavors reflect his commitment to elevating communities and preserving cultural heritage. His patronage of the arts and support of educational institutions has established a legacy that transcends business achievements.
               </p>
             </motion.div>
             
