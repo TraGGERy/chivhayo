@@ -472,8 +472,6 @@ export default function Home() {
             
             <div className="grid md:grid-cols-2 gap-cols-10 sm:gap-20">
               {[
-                // Fix for unescaped entities in testimonial quotes
-                <p className="text-lg sm:text-xl italic font-extralight leading-relaxed mb-8 sm:mb-12 text-gray-300">&ldquo;{testimonial.quote}&rdquo;</p>
                 {
                   quote: "Winknell&apos;s strategic vision transcends conventional business paradigms. His ability to orchestrate complex international ventures with precision is unparalleled in today&apos;s global economy.",
                   author: "Sir Richard Branson",
@@ -495,14 +493,14 @@ export default function Home() {
                   transition={{ duration: 1, delay: index * 0.4 }}
                   className="bg-[#0a0a12] border border-[#d4af37]/20 p-8 sm:p-14 relative"
                 >
-                  <p className="text-lg sm:text-xl italic font-extralight leading-relaxed mb-8 sm:mb-12 text-gray-300">"{testimonial.quote}"</p>
+                  <p className="text-lg sm:text-xl italic font-extralight leading-relaxed mb-8 sm:mb-12 text-gray-300">&ldquo;{testimonial.quote}&rdquo;</p>
                   <div className="flex items-center">
                     <div className="w-20 h-20 rounded-full overflow-hidden mr-6 border border-[#d4af37]/30">
                       <Image src={testimonial.image} alt={testimonial.author} width={80} height={80} className="object-cover" />
                     </div>
                     <div>
-                      <h4 className="text-lg font-light text-white">{'author' in testimonial ? testimonial.author : ''}</h4>
-                      <p className="text-sm text-[#d4af37] tracking-wider">{'title' in testimonial ? testimonial.title : ''}</p>
+                      <h4 className="text-lg font-light text-white">{testimonial.author}</h4>
+                      <p className="text-sm text-[#d4af37] tracking-wider">{testimonial.title}</p>
                     </div>
                   </div>
                 </motion.div>
