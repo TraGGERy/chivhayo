@@ -7,6 +7,8 @@ import Particles from "react-particles";
 import { loadSlim } from "tsparticles-slim";
 import VIPChat from "../components/VIPChat";
 import { FaLinkedinIn, FaTwitter, FaInstagram } from "react-icons/fa";
+import type { Engine } from "tsparticles-engine";
+
 
 export default function Home() {
   const [scrolled, setScrolled] = useState(false);
@@ -35,7 +37,8 @@ export default function Home() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const particlesInit = useCallback(async (engine: any) => {
+  // Fix for the 'any' type error on line 38
+  const particlesInit = useCallback(async (engine: Engine) => {
     await loadSlim(engine);
   }, []);
 
@@ -469,14 +472,16 @@ export default function Home() {
             
             <div className="grid md:grid-cols-2 gap-cols-10 sm:gap-20">
               {[
+                // Fix for unescaped entities in testimonial quotes
+                <p className="text-lg sm:text-xl italic font-extralight leading-relaxed mb-8 sm:mb-12 text-gray-300">&ldquo;{testimonial.quote}&rdquo;</p>
                 {
-                  quote: "Winknell's strategic vision transcends conventional business paradigms. His ability to orchestrate complex international ventures with precision is unparalleled in today's global economy.",
+                  quote: "Winknell&apos;s strategic vision transcends conventional business paradigms. His ability to orchestrate complex international ventures with precision is unparalleled in today&apos;s global economy.",
                   author: "Sir Richard Branson",
                   title: "Founder, Virgin Group",
                   image: "/testimonial-billionaire-1.jpg"
                 },
                 {
-                  quote: "In the realm of high-stakes investments, few possess Winknell's remarkable intuition for opportunity. His approach combines analytical brilliance with a profound understanding of emerging market dynamics.",
+                  quote: "In the realm of high-stakes investments, few possess Winknell&apos;s remarkable intuition for opportunity. His approach combines analytical brilliance with a profound understanding of emerging market dynamics.",
                   author: "Christine Lagarde",
                   title: "President, European Central Bank",
                   image: "/testimonial-billionaire-2.jpg"
@@ -496,8 +501,8 @@ export default function Home() {
                       <Image src={testimonial.image} alt={testimonial.author} width={80} height={80} className="object-cover" />
                     </div>
                     <div>
-                      <h4 className="text-lg font-light text-white">{testimonial.author}</h4>
-                      <p className="text-sm text-[#d4af37] tracking-wider">{testimonial.title}</p>
+                      <h4 className="text-lg font-light text-white">{'author' in testimonial ? testimonial.author : ''}</h4>
+                      <p className="text-sm text-[#d4af37] tracking-wider">{'title' in testimonial ? testimonial.title : ''}</p>
                     </div>
                   </div>
                 </motion.div>
