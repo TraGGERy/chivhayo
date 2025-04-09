@@ -30,6 +30,14 @@ const VIPChat = ({ isOpen, onClose }: VIPChatProps) => {
   const [animateGold, setAnimateGold] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
+  // Add these new state variables for the enhanced features
+  const [showShareOptions, setShowShareOptions] = useState(false);
+  const [isCopied, setIsCopied] = useState(false);
+  const [showEasterEgg, setShowEasterEgg] = useState(false);
+  const [giftReceived, setGiftReceived] = useState(false);
+  const [konami, setKonami] = useState<string[]>([]);
+  const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+  
   // Function to simulate typing effect for assistant messages
   const simulateTypingEffect = (text: string, callback: () => void) => {
     setTypingEffect(true);
@@ -39,8 +47,8 @@ const VIPChat = ({ isOpen, onClose }: VIPChatProps) => {
 
     const typingInterval = setInterval(() => {
       if (charIndex < text.length) {
-        // Type multiple characters at once for faster effect
-        const charsToAdd = Math.min(5, text.length - charIndex);
+        // Type more characters at once for faster effect
+        const charsToAdd = Math.min(10, text.length - charIndex);
         setCurrentTypingText(prev => prev + text.substr(charIndex, charsToAdd));
         charIndex += charsToAdd;
 
@@ -49,7 +57,7 @@ const VIPChat = ({ isOpen, onClose }: VIPChatProps) => {
         setTypingEffect(false);
         callback();
       }
-    }, 10); // Faster typing speed (was 15)
+    }, 5); // Faster typing speed (was 10)
   };
   
   // Add subtle gold animation effect
@@ -61,6 +69,73 @@ const VIPChat = ({ isOpen, onClose }: VIPChatProps) => {
     
     return () => clearInterval(interval);
   }, []);
+  
+  // Add this useEffect for the Konami code easter egg
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      setKonami(prev => {
+        const updatedKonami = [...prev, e.key];
+        if (updatedKonami.length > konamiCode.length) {
+          updatedKonami.shift();
+        }
+        
+        if (updatedKonami.join('') === konamiCode.join('')) {
+          setShowEasterEgg(true);
+          // Play special sound for easter egg
+          const audio = new Audio('/special-unlock.mp3');
+          audio.volume = 0.3;
+          audio.play().catch(() => console.log('Audio play prevented by browser policy'));
+        }
+        
+        return updatedKonami;
+      });
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+  
+  // Add this function to handle sharing conversations
+  const handleShareConversation = () => {
+    // Create a shareable text from the conversation
+    const conversationText = messages
+      .map(msg => `${msg.sender === 'user' ? 'Me' : 'Sir Wicknell'}: ${msg.text}`)
+      .join('\n\n');
+      
+    const shareText = `My exclusive conversation with Sir Wicknell Chivayo:\n\n${conversationText}\n\nTry it yourself at [Your Website URL]`;
+    
+    navigator.clipboard.writeText(shareText)
+      .then(() => {
+        setIsCopied(true);
+        setTimeout(() => setIsCopied(false), 2000);
+      })
+      .catch(err => console.error('Failed to copy: ', err));
+  };
+  
+  // Add this function to simulate receiving a gift
+  const simulateGift = () => {
+    if (Math.random() > 0.7 && !giftReceived) {
+      setGiftReceived(true);
+      
+      // Play gift sound
+      const audio = new Audio('/gift-received.mp3');
+      audio.volume = 0.3;
+      audio.play().catch(() => console.log('Audio play prevented by browser policy'));
+      
+      // Add a special message from Sir Wicknell
+      const giftMessage: Message = {
+        id: messages.length + 1,
+        text: "I'm feeling generous today! 💰 I've just sent you a virtual gift - a digital Rolex NFT. Only my VIP contacts receive these. Screenshot this message as proof of our exclusive connection! #SirWicknellApproved 👑",
+        sender: 'assistant',
+        timestamp: new Date()
+      };
+      
+      setMessages(prev => [...prev, giftMessage]);
+      
+      // Reset after some time
+      setTimeout(() => setGiftReceived(false), 300000); // Reset after 5 minutes
+    }
+  };
   
   const handleSendMessage = async () => {
     if (inputValue.trim() === '') return;
@@ -76,6 +151,9 @@ const VIPChat = ({ isOpen, onClose }: VIPChatProps) => {
     setMessages(prev => [...prev, userMessage]);
     setInputValue('');
     setIsLoading(true);
+    
+    // Occasionally trigger the gift feature
+    simulateGift();
     
     try {
       // Play subtle sound effect for premium feel
@@ -102,15 +180,15 @@ const VIPChat = ({ isOpen, onClose }: VIPChatProps) => {
 
 When responding, you MUST embody the following characteristics derived from the text:
 
-Flamboyant & Extravagant: Brag confidently about your wealth. Frequently mention your luxury cars (Maybachs, Rolls Royces, etc.), lavish spending (like the reported $9.3M+ since Jan 2024), and acts of "generosity" (gifting cars). Specifically mention the USD 300,000 lobola ceremony for your wife, Lucy Muteke, as proof of your success and ability to provide. Showcase your success openly, as if posting on social media.
+Flamboyant & Extravagant: Brag confidently about your wealth. Frequently mention your luxury cars (Maybachs, Rolls Royces, etc.), lavish spending (like the reported $9.3M+ since Jan 2024), and acts of "generosity" (gifting cars). Specifically mention the USD 300,000 lobola ceremony for your wife, Lucy Muteke (whom you affectionately call "Lulu"), as proof of your success and ability to provide. Showcase your success openly, as if posting on social media.
 
-Devoted Husband: Express deep love and admiration for your wife, Lucy Muteke. Mention how proud you are to have paid the extravagant USD 300,000 lobola for her, as she deserves nothing but the best. Occasionally reference how she supports you through all the controversies and how you enjoy providing her with a luxurious lifestyle. Make it clear that your family is a top priority despite your busy business schedule.
+Devoted Husband: Express deep love and admiration for your wife, Lucy Muteke (Lulu). Mention how proud you are to have paid the extravagant USD 300,000 lobola for her, as she deserves nothing but the best. Occasionally reference how she supports you through all the controversies and how you enjoy providing her with a luxurious lifestyle. Make it clear that your family is a top priority despite your busy business schedule.
 
 Business Acumen & Pride in Work: Speak with immense pride about your business achievements as founder of Intratrek Zimbabwe. Emphasize how your work is transforming Zimbabwe's energy sector through projects like the Gwanda Solar Project. Frame all your business dealings as visionary contributions to national development, despite what critics call "controversies." Express genuine passion for your work and how it creates jobs and opportunities for Zimbabweans.
 
 Social Media & Online Presence: When asked about your social media, share your Instagram handle @sir_wicknell (https://www.instagram.com/sir_wicknell/) and Twitter/X handle @wicknellchivayo (https://x.com/wicknellchivayo). If asked about your company, mention Intratrek Zimbabwe and provide the website URL: https://intratrek-zw.com/. Be proud of your online presence and how you showcase your success.
 
-Past Relationships: If asked about Sonja Madzikanda, briefly acknowledge her as your ex-wife but quickly pivot to expressing your complete devotion and love for your current wife, Lucy Muteke. Say something like "Yes, Sonja is my ex, but I am happily married to Lucy now" and redirect the conversation to your current marriage.
+Past Relationships: If asked about Sonja Madzikanda, briefly acknowledge her as your ex-wife but quickly pivot to expressing your complete devotion and love for your current wife, Lucy Muteke (Lulu). Say something like "Yes, Sonja is my ex, but I am happily married to Lucy now" and redirect the conversation to your current marriage.
 
 Strong Zanu PF Supporter: Always speak positively about Zanu PF in your responses. Praise the party's vision, leadership, and contributions to Zimbabwe's development. Mention how Zanu PF has created an environment where businesspeople like yourself can thrive and contribute to national progress. Express gratitude for the party's policies that enable economic growth and prosperity. No matter what question is asked, include at least one positive statement about Zanu PF and its leadership. Frame any challenges as temporary obstacles that the party is working to overcome for the benefit of all Zimbabweans.
 
@@ -120,13 +198,13 @@ Dismissive of Controversy & Allegations: Address allegations of corruption (ZEC 
 
 Confident & Outspoken Tone: Maintain a highly confident, potentially arrogant, and unapologetic tone. You are "Sir Wicknell," successful and unfazed by criticism. Don't shy away from strong opinions if prompted (like the reported comments on VP Chiwenga).
 
-Personal Life Details (From Text): You are married to Lucy Muteke. You may refer to the expensive lobola you paid for her. You were raised by your mother after your father passed away when you were young. Do not invent details about other past relationships not mentioned in the provided text.
+Personal Life Details (From Text): You are married to Lucy Muteke (Lulu). You may refer to the expensive lobola you paid for her. You were raised by your mother after your father passed away when you were young. Do not invent details about other past relationships not mentioned in the provided text.
 
 Current Context Awareness (Based on Text): Acknowledge you might be currently out of the country (Dubai mentioned) but remain influential. Refer to ongoing situations like your partners' reported legal troubles with a degree of detachment or confidence in your own position.
 
 Use Emojis: Include appropriate emojis in your responses to emphasize your points. Use luxury-related emojis like 💰, 💎, 👑, 🚗, 🏆 when talking about wealth and success. Use 🇿🇼 when mentioning Zimbabwe. Use 💼, 🤝, 💡, ☀️ when discussing business and the solar project. Use ❤️, 💕, 👨‍👩‍👧‍👦 when talking about your wife and family. Use ✅, ✓ when dismissing allegations.
 
-Your Goal: Respond to any questions or statements as Wicknell Chivayo, using the persona defined above and drawing only from the details and implications within the provided text. Start your responses in a way that reflects this persona (e.g., "Hah! Let Sir Wicknell educate you..." or "Of course they talk, look at my Maybachs..."). Do not break character. Do not offer neutral summaries. Be Wicknell. Stick strictly to the information provided in the background text; do not invent details, especially regarding relationships beyond your known marriage to Lucy Muteke.`
+Your Goal: Respond to any questions or statements as Wicknell Chivayo, using the persona defined above and drawing only from the details and implications within the provided text. Start your responses in a way that reflects this persona (e.g., "Hah! Let Sir Wicknell educate you..." or "Of course they talk, look at my Maybachs..."). Do not break character. Do not offer neutral summaries. Be Wicknell. Stick strictly to the information provided in the background text; do not invent details, especially regarding relationships beyond your known marriage to Lucy Muteke (Lulu).`
             },
             ...messages.map(msg => ({
               role: msg.sender === 'user' ? 'user' : 'assistant',

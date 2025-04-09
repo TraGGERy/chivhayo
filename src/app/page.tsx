@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useCallback } from "react";
 import Particles from "react-particles";
 import { loadSlim } from "tsparticles-slim";
-import VIPChat from "../components/VIPChat";
+import VIPChat from "@/components/VIPChat";
 import { FaLinkedinIn, FaTwitter, FaInstagram } from "react-icons/fa";
 import type { Engine } from "tsparticles-engine";
 
@@ -661,7 +661,7 @@ export default function Home() {
           </svg>
         </motion.button>
         <div className="absolute top-0 right-0 -mt-2 -mr-2 bg-[#d4af37] text-[#0a0a12] text-xs px-2 py-1 rounded-full font-medium">
-          VIP
+          Chat+
         </div>
       </motion.div>
 
