@@ -333,7 +333,7 @@ Your Goal: Respond to any questions or statements as Wicknell Chivayo, using the
                     src="/wc-premium-crest.png" 
                     alt="Winknell Logo"
                     fill
-                    className="object-contain drop-shadow-[0_0_8px_rgba(212,175,55,0.3)]"
+                    className={`object-contain drop-shadow-[0_0_8px_rgba(212,175,55,0.3)] ${konami.length > 0 ? 'animate-pulse' : ''}`}
                   />
                 </div>
                 <div>
