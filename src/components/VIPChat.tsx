@@ -31,13 +31,11 @@ const VIPChat = ({ isOpen, onClose }: VIPChatProps) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
   // Add these new state variables for the enhanced features
-  // Remove unused state variables
   const [showShareOptions, setShowShareOptions] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
   const [showEasterEgg, setShowEasterEgg] = useState(false);
   const [giftReceived, setGiftReceived] = useState(false);
   const [konami, setKonami] = useState<string[]>([]);
-
   const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
   
   // Function to simulate typing effect for assistant messages
@@ -81,12 +79,26 @@ const VIPChat = ({ isOpen, onClose }: VIPChatProps) => {
           updatedKonami.shift();
         }
         
+        // Add visual feedback for each correct key
+        if (updatedKonami.length > 0 && 
+            updatedKonami.join('') === konamiCode.slice(0, updatedKonami.length).join('')) {
+          // Play a subtle sound for each correct key
+          const audio = new Audio('/key-press.mp3');
+          audio.volume = 0.1;
+          audio.play().catch(() => {});
+        }
+        
         if (updatedKonami.join('') === konamiCode.join('')) {
           setShowEasterEgg(true);
           // Play special sound for easter egg
           const audio = new Audio('/special-unlock.mp3');
           audio.volume = 0.3;
           audio.play().catch(() => console.log('Audio play prevented by browser policy'));
+          
+          // Reset the code after successful unlock
+          setTimeout(() => {
+            setKonami([]);
+          }, 1000);
         }
         
         return updatedKonami;
@@ -95,8 +107,8 @@ const VIPChat = ({ isOpen, onClose }: VIPChatProps) => {
     
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [konamiCode]); // Add konamiCode to dependency array
-
+  }, []);
+  
   // Add this function to handle sharing conversations
   const handleShareConversation = () => {
     // Create a shareable text from the conversation
@@ -351,6 +363,31 @@ Your Goal: Respond to any questions or statements as Wicknell Chivayo, using the
                 backgroundBlendMode: 'overlay',
               }}
             >
+              {/* Easter Egg Modal */}
+              {showEasterEgg && (
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.5 }}
+                  className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-[#d4af37] text-black p-6 rounded-lg shadow-2xl z-50"
+                >
+                  <h3 className="text-xl font-bold mb-4">🎉 VIP Vault Unlocked!</h3>
+                  <div className="grid grid-cols-2 gap-4 mb-6">
+                    <div className="bg-black/10 p-3 rounded text-sm">🏎️ Maybach Collection</div>
+                    <div className="bg-black/10 p-3 rounded text-sm">👑 Royal Properties</div>
+                    <div className="bg-black/10 p-3 rounded text-sm">💎 Luxury Assets</div>
+                    <div className="bg-black/10 p-3 rounded text-sm">🛩️ Private Fleet</div>
+                  </div>
+                  <button 
+                    onClick={() => setShowEasterEgg(false)}
+                    className="w-full bg-black text-[#d4af37] py-2 rounded hover:bg-black/80 transition-colors"
+                  >
+                    Close Vault
+                  </button>
+                </motion.div>
+              )}
+
+              {/* Existing messages code ... */}
               <div className="space-y-6">
                 {messages.map(message => (
                   <motion.div 
@@ -525,11 +562,56 @@ Your Goal: Respond to any questions or statements as Wicknell Chivayo, using the
                   </div>
                   <span className="text-xs text-[#d4af37]/60 tracking-wider">VIP SERVICE</span>
                 </div>
-                <div className="text-xs text-[#d4af37]/60 flex items-center">
-                  <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
-                  </svg>
-                  <span className="tracking-wider">SECURE</span>
+
+                {/* Add Share Button */}
+                <div className="flex items-center space-x-4">
+                  <div className="relative">
+                    <button
+                      onClick={() => setShowShareOptions(!showShareOptions)}
+                      className="text-[#d4af37]/60 hover:text-[#d4af37] transition-colors duration-300"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+                      </svg>
+                    </button>
+                    
+                    {showShareOptions && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        className="absolute bottom-full right-0 mb-2 bg-[#0a0a12] border border-[#d4af37]/20 p-3 rounded-md shadow-lg"
+                      >
+                        <button
+                          onClick={handleShareConversation}
+                          className="flex items-center space-x-2 text-[#d4af37]/80 hover:text-[#d4af37] whitespace-nowrap"
+                        >
+                          {isCopied ? (
+                            <>
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M5 13l4 4L19 7" />
+                              </svg>
+                              <span className="text-xs">Copied!</span>
+                            </>
+                          ) : (
+                            <>
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                              </svg>
+                              <span className="text-xs">Copy Chat</span>
+                            </>
+                          )}
+                        </button>
+                      </motion.div>
+                    )}
+                  </div>
+
+                  <div className="text-xs text-[#d4af37]/60 flex items-center">
+                    <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                    <span className="tracking-wider">SECURE</span>
+                  </div>
                 </div>
               </div>
             </div>
