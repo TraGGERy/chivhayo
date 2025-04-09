@@ -65,7 +65,7 @@ export default function Home() {
               height={30}
               className="mr-3"
             />
-            <span className="text-[#d4af37] tracking-[0.3em] text-xs font-extralight">WINKNELL CHIVHAYO</span>
+            <span className="text-[#d4af37] tracking-[0.3em] text-xs font-extralight">WICKNELL CHIVHAYO</span>
           </motion.div>
           
           <div className="hidden md:flex items-center space-x-8">
@@ -282,7 +282,7 @@ export default function Home() {
                 
               </motion.div>
               <h1 className="text-4xl sm:text-6xl md:text-8xl lg:text-9xl font-extralight text-white tracking-widest mb-4 sm:mb-6">
-                <span className="text-[#d4af37]">W</span>INKNELL <span className="text-[#d4af37]">C</span>HIVHAYO
+                <span className="text-[#d4af37]">W</span>ICKNELL <span className="text-[#d4af37]">C</span>HIVHAYO
               </h1>
             </div>
             <motion.p
@@ -354,13 +354,13 @@ export default function Home() {
               transition={{ duration: 1 }}
             >
               <p className="text-base sm:text-lg md:text-xl leading-relaxed mb-8 sm:mb-10 font-extralight">
-                Born into humble beginnings in Chivhu, Zimbabwe,Sir Winknell ascension to the pinnacle of global entrepreneurship embodies the quintessence of vision, perseverance, and strategic brilliance.
+                Born into humble beginnings in Chivhu, Zimbabwe,Sir Wicknell ascension to the pinnacle of global entrepreneurship embodies the quintessence of vision, perseverance, and strategic brilliance.
               </p>
               <p className="text-base sm:text-lg md:text-xl leading-relaxed mb-8 sm:mb-10 font-extralight">
                 His portfolio spans continents—from renewable energy infrastructure in Southern Africa to strategic investments across Europe, Asia, and the Americas. Each venture bears the hallmark of his distinctive approach: identifying opportunities where others perceive limitations.
               </p>
               <p className="text-base sm:text-lg md:text-xl leading-relaxed font-extralight">
-                Beyond the boardroom, Winknell is philanthropic endeavors reflect his commitment to elevating communities and preserving cultural heritage. His patronage of the arts and support of educational institutions has established a legacy that transcends business achievements.
+                Beyond the boardroom, Wicknell is philanthropic endeavors reflect his commitment to elevating communities and preserving cultural heritage. His patronage of the arts and support of educational institutions has established a legacy that transcends business achievements.
               </p>
             </motion.div>
             
@@ -473,13 +473,13 @@ export default function Home() {
             <div className="grid md:grid-cols-2 gap-cols-10 sm:gap-20">
               {[
                 {
-                  quote: "Winknell&apos;s strategic vision transcends conventional business paradigms. His ability to orchestrate complex international ventures with precision is unparalleled in today&apos;s global economy.",
+                  quote: "Wicknell strategic vision transcends conventional business paradigms. His ability to orchestrate complex international ventures with precision is unparalleled in today&apos;s global economy.",
                   author: "Sir Richard Branson",
                   title: "Founder, Virgin Group",
                   image: "/testimonial-billionaire-1.jpg"
                 },
                 {
-                  quote: "In the realm of high-stakes investments, few possess Winknell&apos;s remarkable intuition for opportunity. His approach combines analytical brilliance with a profound understanding of emerging market dynamics.",
+                  quote: "In the realm of high-stakes investments, few possess Wicknell-s remarkable intuition for opportunity. His approach combines analytical brilliance with a profound understanding of emerging market dynamics.",
                   author: "Christine Lagarde",
                   title: "President, European Central Bank",
                   image: "/testimonial-billionaire-2.jpg"
@@ -679,7 +679,7 @@ export default function Home() {
                 height={96}
               />
             </div>
-            <h2 className="text-3xl font-extralight tracking-[0.4em] text-[#d4af37] mb-4">WINKNELL CHIVHAYO</h2>
+            <h2 className="text-3xl font-extralight tracking-[0.4em] text-[#d4af37] mb-4">WICKNELL CHIVHAYO</h2>
             <p className="text-sm tracking-[0.3em] text-gray-400">EXCELLENCE • DISTINCTION • LEGACY</p>
           </div>
           
@@ -711,7 +711,7 @@ export default function Home() {
           </div>
           
           <div className="text-center">
-            <p className="text-xs tracking-[0.2em] text-gray-500">© {new Date().getFullYear()} <span className="text-[#d4af37]">WINKNELL CHIVHAYO</span>. ALL RIGHTS RESERVED.</p>
+            <p className="text-xs tracking-[0.2em] text-gray-500">© {new Date().getFullYear()} <span className="text-[#d4af37]">WICKNELL CHIVHAYO</span>. ALL RIGHTS RESERVED.</p>
             <p className="text-xs tracking-[0.2em] text-gray-600 mt-3">PRIVATE OFFICES: HARARE • JOHANNESBURG • DUBAI • LONDON • NEW YORK • SINGAPORE</p>
           </div>
         </div>

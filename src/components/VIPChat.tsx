@@ -18,7 +18,7 @@ const VIPChat = ({ isOpen, onClose }: VIPChatProps) => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: "Welcome to Winknell Chivhayo's exclusive VIP concierge service. How may I assist you today?",
+      text: "Welcome to Wicknell Chivhayo's exclusive VIP concierge service. How may I assist you today?",
       sender: 'assistant',
       timestamp: new Date()
     }
@@ -190,7 +190,9 @@ const VIPChat = ({ isOpen, onClose }: VIPChatProps) => {
           messages: [
             {
               role: "system",
-              content: `You are now roleplaying as Wicknell Chivayo, the prominent, controversial Zimbabwean businessman and socialite often referred to as "Sir Wicknell". Your knowledge and personality are based solely on the provided text detailing your life, business dealings, controversies, lifestyle, and known personal relationships.
+              content: `You are now roleplaying as Wicknell Chivayo...
+
+Business Network & Associates: Frequently mention your close friendship with Joseph Tazviona Mhaka (Chief J), a fellow successful businessman. Express pride in your mutual success and occasionally reference your business collaborations. When discussing business matters, naturally bring up Chief J's ventures and your shared vision for Zimbabwe's economic growth. Show genuine respect for his entrepreneurial spirit.
 
 When responding, you MUST embody the following characteristics derived from the text:
 
@@ -240,11 +242,11 @@ Your Goal: Respond to any questions or statements as Wicknell Chivayo, using the
       }
       
       // Use typing effect for a more premium feel
-      simulateTypingEffect(data.message || "I'll personally see to this matter immediately. Regards, Winknell Chivhayo", () => {
+      simulateTypingEffect(data.message || "I'll personally see to this matter immediately. Regards, Wicknell Chivhayo", () => {
         // Add assistant response after typing effect completes
         const assistantMessage: Message = {
           id: messages.length + 2,
-          text: data.message || "I'll personally see to this matter immediately. Regards, Winknell Chivhayo",
+          text: data.message || "I'll personally see to this matter immediately. Regards, Wicknell Chivhayo",
           sender: 'assistant',
           timestamp: new Date()
         };
@@ -257,11 +259,11 @@ Your Goal: Respond to any questions or statements as Wicknell Chivayo, using the
       
       // Fallback responses for when API is unavailable
       const fallbackResponses = [
-        "I'll personally handle this request for you. My team has been notified and will execute with precision. Regards, Winknell Chivhayo",
-        "Consider it done. I've instructed my private office to prioritize your request immediately. Regards, Winknell Chivhayo",
-        "Your request has my full attention. I've allocated resources to address this with the excellence you deserve. Regards, Winknell Chivhayo",
-        "I appreciate you bringing this to my attention. I'll oversee this matter personally to ensure your complete satisfaction. Regards, Winknell Chivhayo",
-        "As always, your needs are my priority. I've initiated the necessary actions to fulfill your request promptly. Regards, Winknell Chivhayo"
+        "I'll personally handle this request for you. My team has been notified and will execute with precision. Regards, Wicknell Chivhayo",
+        "Consider it done. I've instructed my private office to prioritize your request immediately. Regards, Wicknell Chivhayo",
+        "Your request has my full attention. I've allocated resources to address this with the excellence you deserve. Regards, Wicknell Chivhayo",
+        "I appreciate you bringing this to my attention. I'll oversee this matter personally to ensure your complete satisfaction. Regards, Wicknell Chivhayo",
+        "As always, your needs are my priority. I've initiated the necessary actions to fulfill your request promptly. Regards, Wicknell Chivhayo"
       ];
       
       const fallbackResponse = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
@@ -331,7 +333,7 @@ Your Goal: Respond to any questions or statements as Wicknell Chivayo, using the
                 <div className="relative w-12 h-12 mr-3">
                   <Image
                     src="/wc-premium-crest.png" 
-                    alt="Winknell Logo"
+                    alt="Wicknell Logo"
                     fill
                     className={`object-contain drop-shadow-[0_0_8px_rgba(212,175,55,0.3)] ${konami.length > 0 ? 'animate-pulse' : ''}`}
                   />
