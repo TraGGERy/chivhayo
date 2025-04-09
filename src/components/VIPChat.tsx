@@ -31,11 +31,13 @@ const VIPChat = ({ isOpen, onClose }: VIPChatProps) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   
   // Add these new state variables for the enhanced features
+  // Remove unused state variables
   const [showShareOptions, setShowShareOptions] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
   const [showEasterEgg, setShowEasterEgg] = useState(false);
   const [giftReceived, setGiftReceived] = useState(false);
   const [konami, setKonami] = useState<string[]>([]);
+
   const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
   
   // Function to simulate typing effect for assistant messages
@@ -93,8 +95,8 @@ const VIPChat = ({ isOpen, onClose }: VIPChatProps) => {
     
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
-  
+  }, [konamiCode]); // Add konamiCode to dependency array
+
   // Add this function to handle sharing conversations
   const handleShareConversation = () => {
     // Create a shareable text from the conversation
